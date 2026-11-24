@@ -3,46 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SOP Laboratorium Fisika — SMAN 6 Bandung</title>
+<title>Laboratorium Fisika — SMAN 6 Bandung</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: #f4f6f9; color: #1f2937; line-height: 1.6;
+    min-height: 100vh; display: flex; flex-direction: column;
   }
+
+  /* ===== Header ===== */
   header {
     background: linear-gradient(135deg, #1e3a8a, #2563eb);
-    color: #fff; padding: 26px 20px; text-align: center;
-    position: relative; /* Penting untuk tumpukan z-index */
+    color: #fff; padding: 26px 20px 22px; text-align: center;
   }
   header h1 { font-size: 1.4rem; margin-bottom: 4px; }
   header p { font-size: .85rem; opacity: .85; }
 
-  /* Tombol Peminjaman yang diperkuat */
-  .btn-pinjam {
-    display: inline-block; 
-    margin-top: 15px; 
-    background-color: #10b981; 
-    color: white; 
-    padding: 12px 28px; 
-    text-decoration: none; 
-    border-radius: 8px; 
-    font-weight: bold; 
-    font-size: 0.95rem; 
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2); 
-    position: relative; 
-    z-index: 99;
-    transition: all 0.3s ease;
+  /* ===== Tab navigasi ===== */
+  .tabs { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+  .tab {
+    background: rgba(255,255,255,.15); color: #fff;
+    border: 1px solid rgba(255,255,255,.35);
+    padding: 10px 22px; border-radius: 999px;
+    font-weight: 600; font-size: .9rem; cursor: pointer; transition: .2s;
+    font-family: inherit;
   }
-  .btn-pinjam:hover {
-    background-color: #059669;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-  }
+  .tab:hover { background: rgba(255,255,255,.28); }
+  .tab.active { background: #fff; color: #1e3a8a; border-color: #fff; }
+  .panel[hidden] { display: none; }
 
-  .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; }
+  .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; width: 100%; flex: 1; }
 
-  /* Breadcrumb */
+  /* ===== Breadcrumb & pencarian ===== */
   .crumb { font-size: .82rem; color: #64748b; margin-bottom: 16px; }
   .crumb span { color: #2563eb; cursor: pointer; }
   .crumb span:hover { text-decoration: underline; }
@@ -52,36 +45,39 @@
   .search-box {
     width: 100%; padding: 12px 16px; border: 1px solid #cbd5e1;
     border-radius: 10px; font-size: .95rem; margin-bottom: 20px; outline: none;
+    font-family: inherit;
   }
   .search-box:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
 
-  /* Grid kategori */
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 14px;
-  }
+  /* ===== Grid kategori ===== */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
   .card {
     background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
-    padding: 18px; cursor: pointer; transition: .2s; position: relative;
+    padding: 18px; cursor: pointer; transition: .2s;
   }
-  .card:hover {
-    border-color: #2563eb; box-shadow: 0 6px 18px rgba(37,99,235,.12);
-    transform: translateY(-2px);
-  }
+  .card:hover { border-color: #2563eb; box-shadow: 0 6px 18px rgba(37,99,235,.12); transform: translateY(-2px); }
   .card .num {
     display: inline-block; background: #dbeafe; color: #1e40af;
-    font-weight: 700; font-size: .72rem; padding: 2px 8px;
-    border-radius: 6px; margin-bottom: 8px;
+    font-weight: 700; font-size: .72rem; padding: 2px 8px; border-radius: 6px; margin-bottom: 8px;
   }
   .card h3 { font-size: 1rem; margin-bottom: 6px; }
   .card p { font-size: .8rem; color: #64748b; }
-  .card .count {
-    display: inline-block; margin-top: 8px; font-size: .72rem;
-    color: #2563eb; font-weight: 600;
-  }
+  .card .count { display: inline-block; margin-top: 8px; font-size: .72rem; color: #2563eb; font-weight: 600; }
 
-  /* Modal */
+  /* ===== Daftar alat ===== */
+  .tool-list { display: grid; gap: 10px; }
+  .tool-item {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
+    padding: 14px 16px; cursor: pointer; transition: .2s;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  .tool-item:hover { border-color: #2563eb; background: #f8fafc; }
+  .tool-item .info h3 { font-size: .95rem; margin-bottom: 2px; }
+  .tool-item .info p { font-size: .78rem; color: #64748b; }
+  .tool-item .arrow { color: #94a3b8; font-size: 1.1rem; }
+  .empty { text-align: center; color: #94a3b8; padding: 30px 10px; font-size: .9rem; }
+
+  /* ===== Modal SOP ===== */
   .overlay {
     position: fixed; inset: 0; background: rgba(15,23,42,.55);
     display: none; align-items: flex-start; justify-content: center;
@@ -100,7 +96,7 @@
     font-size: 1.1rem; cursor: pointer; color: #475569;
   }
   .modal .close:hover { background: #e2e8f0; }
-  .modal h2 { color: #1e3a8a; font-size: 1.2rem; margin-bottom: 4px; }
+  .modal h2 { color: #1e3a8a; font-size: 1.2rem; margin-bottom: 4px; padding-right: 40px; }
   .modal .sub { color: #64748b; font-size: .82rem; margin-bottom: 18px; }
 
   .section { margin-bottom: 16px; }
@@ -116,40 +112,79 @@
     border-left: 4px solid #dc2626; border-radius: 8px;
     padding: 12px 14px; font-size: .86rem; color: #991b1b;
   }
-  .warning strong { color: #b91c1c; }
-
-  /* Daftar alat dalam kategori */
-  .tool-list { display: grid; gap: 10px; }
-  .tool-item {
-    background: #fff; border: 1px solid #e2e8f0; border-radius: 10px;
-    padding: 14px 16px; cursor: pointer; transition: .2s;
-    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  .btn-pinjam {
+    display: inline-block; margin-top: 8px; background: #10b981; color: #fff;
+    border: none; padding: 11px 22px; border-radius: 8px; font-weight: 700;
+    font-size: .9rem; cursor: pointer; transition: .2s; font-family: inherit;
   }
-  .tool-item:hover { border-color: #2563eb; background: #f8fafc; }
-  .tool-item .info h3 { font-size: .95rem; margin-bottom: 2px; }
-  .tool-item .info p { font-size: .78rem; color: #64748b; }
-  .tool-item .arrow { color: #94a3b8; font-size: 1.1rem; }
+  .btn-pinjam:hover { background: #059669; transform: translateY(-1px); }
+
+  /* ===== Panel peminjaman ===== */
+  .form-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+  .info-box {
+    background: #eff6ff; border-left: 4px solid #3b82f6;
+    padding: 16px; border-radius: 8px; margin-bottom: 20px;
+    font-size: .9rem; color: #1e40af;
+  }
+  .info-box ul { margin-left: 20px; margin-top: 8px; }
+  .info-box li { margin-bottom: 3px; }
+  .info-box a { color: #1e3a8a; font-weight: 700; cursor: pointer; text-decoration: underline; }
+  .iframe-container {
+    width: 100%; height: 750px; border-radius: 10px;
+    overflow: hidden; border: 1px solid #cbd5e1;
+  }
+  .iframe-container iframe { width: 100%; height: 100%; border: none; }
 
   footer { text-align: center; font-size: .76rem; color: #94a3b8; padding: 24px 16px; }
+
+  @media (max-width: 600px) {
+    .iframe-container { height: 850px; }
+    .form-card { padding: 14px; }
+  }
   @media (max-width: 480px) { .modal { padding: 18px 16px 24px; } }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🔬 SOP Laboratorium Fisika</h1>
-  <p>SMAN 6 Bandung · Pilih kategori → pilih alat → lihat SOP</p>
-  
-  <!-- TOMBOL PEMINJAMAN ALAT -->
-  <a href="peminjaman.html" class="btn-pinjam">
-    📋 Form Peminjaman Alat
-  </a>
+  <h1>🔬 Laboratorium Fisika</h1>
+  <p>SMAN 6 Bandung · SOP Alat &amp; Peminjaman</p>
+  <div class="tabs">
+    <button class="tab active" data-tab="sop">📖 SOP Alat</button>
+    <button class="tab" data-tab="pinjam">📋 Peminjaman</button>
+  </div>
 </header>
 
 <div class="container">
-  <div class="crumb" id="crumb"></div>
-  <input type="text" id="search" class="search-box" placeholder="🔍 Cari kategori atau alat...">
-  <div id="view"></div>
+
+  <!-- PANEL SOP -->
+  <section class="panel" id="tab-sop">
+    <div class="crumb" id="crumb"></div>
+    <input type="text" id="search" class="search-box" placeholder="🔍 Cari kategori atau alat...">
+    <div id="view"></div>
+  </section>
+
+  <!-- PANEL PEMINJAMAN -->
+  <section class="panel" id="tab-pinjam" hidden>
+    <div class="form-card">
+      <div class="info-box">
+        <strong>📌 Perhatian Sebelum Mengisi:</strong>
+        <ul>
+          <li>Isi <strong>Nama Lengkap</strong> dan <strong>Kelas</strong> dengan benar.</li>
+          <li>Pilih alat yang akan dipinjam beserta jumlahnya.</li>
+          <li>Peminjaman diproses setelah disetujui guru/laboran.</li>
+          <li>Alat yang rusak atau hilang menjadi tanggung jawab peminjam.</li>
+          <li>Baca SOP alat di tab <a onclick="showTab('sop')">SOP Alat</a> sebelum menggunakannya.</li>
+        </ul>
+      </div>
+      <div class="iframe-container">
+        <iframe loading="lazy"
+          src="https://docs.google.com/forms/d/e/1FAIpQLSfDGhiXqnRhsZGqa6g2ikqrFIXHrgdjVSWcguGvU12at6mx9A/viewform?embedded=true"
+          frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <div class="overlay" id="overlay">
@@ -1860,8 +1895,8 @@ const data = {
     }
   ]
 };
-  
-/* ===================== NAVIGASI ===================== */
+
+/* ===================== ELEMEN ===================== */
 const view = document.getElementById('view');
 const crumb = document.getElementById('crumb');
 const search = document.getElementById('search');
@@ -1870,6 +1905,19 @@ const modal = document.getElementById('modal');
 
 let state = { level: 'kategori', kategori: null };
 
+/* ===================== TAB ===================== */
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t =>
+    t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.panel').forEach(p =>
+    p.hidden = (p.id !== 'tab-' + name));
+  try { history.replaceState(null, '', '#' + name); } catch (e) {}
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.tab').forEach(t =>
+  t.addEventListener('click', () => showTab(t.dataset.tab)));
+
+/* ===================== NAVIGASI SOP ===================== */
 function renderCrumb() {
   let html = '<span onclick="goKategori()">Kategori</span>';
   if (state.level === 'alat' && state.kategori) {
@@ -1881,10 +1929,20 @@ function renderCrumb() {
 function renderKategori(filter = '') {
   state = { level: 'kategori', kategori: null };
   renderCrumb();
-  const cats = Object.keys(data).filter(c => c.toLowerCase().includes(filter.toLowerCase()));
+  search.placeholder = '🔍 Cari kategori atau alat...';
+  const q = filter.toLowerCase();
+  const cats = Object.keys(data).filter(c => {
+    if (c.toLowerCase().includes(q)) return true;
+    // cari juga berdasarkan nama alat di dalam kategori
+    return data[c].some(a => a.nama.toLowerCase().includes(q));
+  });
+  if (!cats.length) {
+    view.innerHTML = '<div class="empty">Tidak ada hasil untuk "' + filter + '"</div>';
+    return;
+  }
   view.innerHTML = '<div class="grid">' + cats.map((c, i) => `
     <div class="card" onclick="bukaKategori('${c}')">
-      <span class="num">Kategori ${i + 1}</span>
+      <span class="num">Kategori ${Object.keys(data).indexOf(c) + 1}</span>
       <h3>${c}</h3>
       <p>${data[c].length} alat</p>
       <span class="count">Lihat alat →</span>
@@ -1892,30 +1950,41 @@ function renderKategori(filter = '') {
   `).join('') + '</div>';
 }
 
-function bukaKategori(cat) {
-  state = { level: 'alat', kategori: cat };
-  renderCrumb();
-  const items = data[cat];
-  view.innerHTML = '<div class="tool-list">' + items.map((a, i) => `
-    <div class="tool-item" onclick="bukaSOP('${cat}', ${i})">
-      <div class="info">
-        <h3>${a.nama}</h3>
-        <p>${a.ringkas}</p>
-      </div>
+function renderAlat(filter = '') {
+  const q = filter.toLowerCase();
+  const items = data[state.kategori]
+    .map((a, i) => ({ a, i }))
+    .filter(({ a }) => a.nama.toLowerCase().includes(q) || a.ringkas.toLowerCase().includes(q));
+  if (!items.length) {
+    view.innerHTML = '<div class="empty">Tidak ada alat yang cocok.</div>';
+    return;
+  }
+  view.innerHTML = '<div class="tool-list">' + items.map(({ a, i }) => `
+    <div class="tool-item" onclick="bukaSOP('${state.kategori}', ${i})">
+      <div class="info"><h3>${a.nama}</h3><p>${a.ringkas}</p></div>
       <div class="arrow">›</div>
     </div>
   `).join('') + '</div>';
 }
 
+function bukaKategori(cat) {
+  state = { level: 'alat', kategori: cat };
+  search.value = '';
+  search.placeholder = '🔍 Cari alat di ' + cat + '...';
+  renderCrumb();
+  renderAlat();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function goKategori() {
-  state = { level: 'kategori', kategori: null };
-  renderKategori(search.value);
+  search.value = '';
+  renderKategori();
 }
 
 function bukaSOP(cat, i) {
   const a = data[cat][i];
   modal.innerHTML = `
-    <button class="close" onclick="closeSOP()">✕</button>
+    <button class="close" onclick="closeSOP()" aria-label="Tutup">✕</button>
     <h2>${a.nama}</h2>
     <div class="sub">${cat} · Kode: ${a.kode}</div>
 
@@ -1945,35 +2014,29 @@ function bukaSOP(cat, i) {
       <h4>📦 Penyimpanan &amp; Pemeliharaan</h4>
       <ol>${a.penyimpanan.map(x => `<li>${x}</li>`).join('')}</ol>
     </div>
+
+    <button class="btn-pinjam" onclick="closeSOP(); showTab('pinjam')">📋 Pinjam alat ini</button>
   `;
   overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
 
-function closeSOP() { overlay.classList.remove('active'); }
+function closeSOP() {
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
 
 overlay.addEventListener('click', e => { if (e.target === overlay) closeSOP(); });
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSOP(); });
 
 search.addEventListener('input', e => {
-  const q = e.target.value.toLowerCase();
-  if (state.level === 'kategori') {
-    renderKategori(q);
-  } else {
-    const items = data[state.kategori];
-    const filtered = items.map((a, i) => ({ a, i })).filter(({ a }) =>
-      a.nama.toLowerCase().includes(q) || a.ringkas.toLowerCase().includes(q)
-    );
-    view.innerHTML = '<div class="tool-list">' + filtered.map(({ a, i }) => `
-      <div class="tool-item" onclick="bukaSOP('${state.kategori}', ${i})">
-        <div class="info"><h3>${a.nama}</h3><p>${a.ringkas}</p></div>
-        <div class="arrow">›</div>
-      </div>
-    `).join('') + '</div>';
-  }
+  if (state.level === 'kategori') renderKategori(e.target.value);
+  else renderAlat(e.target.value);
 });
 
-// init
+/* ===================== INIT ===================== */
 renderKategori();
+showTab(location.hash === '#pinjam' ? 'pinjam' : 'sop');
 </script>
 </body>
 </html>
