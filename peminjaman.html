@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peminjaman Alat - Lab Fisika SMAN 6</title>
+<style>
+  /* --- Reset & Font Dasar --- */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background-color: #f0f4f8;
+    color: #1f2937;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* --- Header --- */
+  header {
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    color: #fff;
+    padding: 40px 20px;
+    text-align: center;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+  }
+  header h1 { font-size: 1.8rem; margin-bottom: 8px; font-weight: 700; }
+  header p { font-size: 0.95rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
+  /* --- Container Utama --- */
+  .container {
+    max-width: 800px;
+    margin: -30px auto 40px;
+    padding: 0 16px;
+    width: 100%;
+    flex: 1;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* --- Kartu Form --- */
+  .form-card {
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+  }
+
+  .info-box {
+    background-color: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+    color: #1e40af;
+  }
+  .info-box ul { margin-left: 20px; margin-top: 8px; }
+
+  /* --- Iframe Google Form --- */
+  .iframe-container {
+    position: relative;
+    width: 100%;
+    /* Tinggi diatur agar form muat dengan lega */
+    height: 750px; 
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #cbd5e1;
+  }
+
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* --- Footer --- */
+  footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: #64748b;
+    padding: 20px;
+    margin-top: auto;
+  }
+
+  /* Responsif untuk layar kecil (HP) */
+  @media (max-width: 600px) {
+    .form-card { padding: 20px 15px; }
+    .iframe-container { height: 850px; } /* Form biasanya lebih panjang di HP */
+    header h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>📋 Form Peminjaman Alat</h1>
+  <p>Laboratorium Fisika SMA Negeri 6 Bandung</p>
+</header>
+
+<div class="container">
+  <div class="form-card">
+    
+    <div class="info-box">
+      <strong>📌 Perhatian Sebelum Mengisi:</strong>
+      <ul>
+        <li>Pastikan Anda telah mengisi <strong>Nama Lengkap</strong> dan <strong>Kelas</strong> dengan benar.</li>
+        <li>Pilih alat yang akan dipinjam beserta jumlahnya.</li>
+        <li>Peminjaman hanya akan diproses setelah disetujui oleh guru/laboran.</li>
+        <li>Alat yang rusak atau hilang menjadi tanggung jawab peminjam.</li>
+      </ul>
+    </div>
+
+    <div class="iframe-container">
+      <!-- 
+        GANTI URL DI BAWAH INI DENGAN URL GOOGLE FORM ANDA 
+        (Ubah bagian 'viewform' menjadi 'viewform?embedded=true')
+      -->
+      <iframe 
+        src="https://docs.google.com/forms/d/e/1FAIpQLSfDGhiXqnRhsZGqa6g2ikqrFIXHrgdjVSWcguGvU12at6mx9A/viewform?embedded=true" 
+        frameborder="0" 
+        marginheight="0" 
+        marginwidth="0">
+        Memuat…
+      </iframe>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  © 2026 Laboratorium Fisika SMAN 6 Bandung · Dibuat untuk kemudahan praktikum
+</footer>
+
+</body>
+</html>
